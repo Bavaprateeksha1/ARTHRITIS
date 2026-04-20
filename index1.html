@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Arthritis Monitoring Sleeve | SRMIST Biomedical Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ===================== TOKENS ===================== */
+:root{
+  --navy:#0a1628; --blue-deep:#1a3a6e; --blue-mid:#1e5bbd;
+  --blue-bright:#2d7dd2; --blue-light:#5ba4f5;
+  --blue-pale:#dceeff; --blue-wash:#f0f7ff; --blue-tint:#f7fbff;
+  --white:#fff; --text-primary:#0d1b33; --text-secondary:#2c4a7a;
+  --text-muted:#6280a8; --border:#c8dff5; --border-lt:#e4f0fc;
+  --sh-xs:0 1px 4px rgba(13,60,130,.06);
+  --sh-sm:0 2px 12px rgba(13,60,130,.09);
+  --sh-md:0 8px 28px rgba(13,60,130,.13);
+  --sh-lg:0 20px 60px rgba(13,60,130,.18);
+  --r:16px; --r-sm:10px; --r-xs:7px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--blue-tint);color:var(--text-primary);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ===================== PROGRESS ===================== */
+#progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--blue-bright),var(--blue-light));width:0%;z-index:9999;transition:width .1s linear}
+
+/* ===================== NAV ===================== */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:62px;padding:0 1.75rem;display:flex;align-items:center;justify-content:space-between;background:rgba(247,251,255,.94);backdrop-filter:blur(16px);border-bottom:1px solid var(--border-lt);transition:box-shadow .3s}
+nav.scrolled{box-shadow:var(--sh-md)}
+.nav-brand{font-weight:700;font-size:.92rem;color:var(--blue-deep);letter-spacing:-.01em;display:flex;align-items:center;gap:.45rem}
+.nav-dot{width:7px;height:7px;background:var(--blue-bright);border-radius:50%;animation:npulse 2s ease-in-out infinite;flex-shrink:0}
+@keyframes npulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
+.nav-links{display:flex;align-items:center;gap:.05rem;list-style:none;flex-wrap:wrap}
+.nav-links a{font-size:.74rem;font-weight:500;color:var(--text-secondary);text-decoration:none;padding:.28rem .58rem;border-radius:6px;transition:all .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--blue-bright);background:var(--blue-pale)}
+.nav-toggle{display:none;background:none;border:none;font-size:1.25rem;cursor:pointer;color:var(--blue-deep)}
+
+/* ===================== SECTIONS ===================== */
+section{padding:88px 0}
+.container{max-width:1080px;margin:0 auto;padding:0 1.75rem}
+.sec-tag{font-size:.66rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--blue-bright);margin-bottom:.55rem;display:flex;align-items:center;gap:.45rem}
+.sec-tag::before{content:'';width:16px;height:2px;background:var(--blue-bright);display:inline-block;border-radius:1px}
+.sec-title{font-size:clamp(1.6rem,2.8vw,2.2rem);font-weight:800;color:var(--navy);letter-spacing:-.03em;line-height:1.15;margin-bottom:.85rem}
+.sec-lead{font-size:.96rem;color:var(--text-muted);max-width:570px;margin-bottom:2.5rem}
+
+/* ===================== ANIMATIONS ===================== */
+.fi{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.fi.visible{opacity:1;transform:translateY(0)}
+.fi-d1{transition-delay:.12s}
+.fi-d2{transition-delay:.24s}
+
+/* ===================== HERO ===================== */
+#hero{min-height:100vh;display:flex;align-items:center;background:linear-gradient(135deg,#070f1e 0%,var(--navy) 45%,var(--blue-deep) 100%);position:relative;overflow:hidden;padding-top:62px}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(45,125,210,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(45,125,210,.06) 1px,transparent 1px);background-size:56px 56px}
+.hero-glow1{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(45,125,210,.2) 0%,transparent 70%);top:30%;left:62%;transform:translate(-50%,-50%);pointer-events:none}
+.hero-glow2{position:absolute;width:280px;height:280px;background:radial-gradient(circle,rgba(91,164,245,.11) 0%,transparent 70%);bottom:8%;left:4%;pointer-events:none}
+.hero-content{position:relative;z-index:2;padding:3rem 0}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.45rem;background:rgba(45,125,210,.16);border:1px solid rgba(91,164,245,.28);border-radius:100px;padding:.32rem .85rem;font-size:.68rem;font-weight:600;color:var(--blue-light);letter-spacing:.07em;text-transform:uppercase;margin-bottom:1.5rem}
+.hero-title{font-size:clamp(1.9rem,4.2vw,3.5rem);font-weight:800;color:#fff;letter-spacing:-.04em;line-height:1.08;margin-bottom:1.25rem}
+.hero-title .grad{background:linear-gradient(90deg,#7ec8f9,#a8d8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1rem;color:rgba(195,220,255,.75);max-width:540px;margin-bottom:2rem;line-height:1.72}
+.hero-stats{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2rem}
+.hstat-val{font-size:1.6rem;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1}
+.hstat-lbl{font-size:.63rem;color:rgba(170,205,255,.58);text-transform:uppercase;letter-spacing:.1em;margin-top:.18rem;font-weight:500}
+.hero-btns{display:flex;gap:.8rem;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:.4rem;background:var(--blue-bright);color:#fff;padding:.72rem 1.45rem;border-radius:9px;text-decoration:none;font-weight:600;font-size:.85rem;transition:all .22s}
+.btn-primary:hover{background:var(--blue-light);transform:translateY(-2px);box-shadow:0 8px 20px rgba(45,125,210,.38)}
+.btn-ghost{display:inline-flex;align-items:center;gap:.4rem;background:transparent;color:rgba(195,220,255,.85);border:1px solid rgba(91,164,245,.32);padding:.72rem 1.45rem;border-radius:9px;text-decoration:none;font-weight:500;font-size:.85rem;transition:all .22s}
+.btn-ghost:hover{border-color:var(--blue-light);color:var(--blue-light)}
+
+/* ===================== INSTITUTION ===================== */
+#institution{background:var(--white);padding:60px 0;border-bottom:1px solid var(--border-lt)}
+.inst-card{background:linear-gradient(135deg,#0a1628,#1a3a6e);border-radius:var(--r);padding:2.6rem;color:white;display:grid;grid-template-columns:1.15fr .85fr;gap:2.5rem}
+.inst-dept{font-size:.8rem;color:var(--blue-light);font-weight:500;margin-bottom:.28rem}
+.inst-name{font-size:1.3rem;font-weight:800;letter-spacing:-.025em;line-height:1.2;margin-bottom:.35rem}
+.inst-sub{font-size:.74rem;color:rgba(170,205,255,.5);margin-bottom:1.6rem}
+.team-hd{font-size:.61rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--blue-light);margin-bottom:.8rem}
+.member{display:flex;align-items:center;gap:.65rem;margin-bottom:.6rem}
+.avatar{width:32px;height:32px;background:rgba(45,125,210,.25);border:1px solid rgba(91,164,245,.27);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.63rem;font-weight:700;color:var(--blue-light);flex-shrink:0}
+.mem-name{font-size:.83rem;font-weight:600}
+.mem-reg{font-size:.66rem;color:rgba(170,205,255,.48)}
+.guide-sep{margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid rgba(91,164,245,.17)}
+.guide-hd{font-size:.61rem;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:rgba(170,205,255,.48);margin-bottom:.38rem}
+.guide-name{font-size:.98rem;font-weight:700;margin-bottom:.15rem}
+.guide-role{font-size:.72rem;color:var(--blue-light)}
+.tags{display:flex;flex-wrap:wrap;gap:.38rem;margin-top:1.2rem}
+.tag{background:rgba(45,125,210,.13);border:1px solid rgba(91,164,245,.23);border-radius:100px;padding:.22rem .7rem;font-size:.66rem;font-weight:600;color:var(--blue-light)}
+
+/* ===================== SHARED CARD STYLES ===================== */
+.img-card{background:white;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border-lt);box-shadow:var(--sh-sm);transition:box-shadow .22s}
+.img-card:hover{box-shadow:var(--sh-md)}
+.img-wrap{overflow:hidden;cursor:pointer;background:var(--blue-wash);display:flex;align-items:center;justify-content:center}
+.img-wrap img{display:block;max-width:100%;transition:transform .3s;object-fit:contain}
+.img-wrap:hover img{transform:scale(1.03)}
+.img-caption{padding:.72rem 1.1rem;font-size:.72rem;color:var(--text-muted);font-weight:500;border-top:1px solid var(--border-lt);display:flex;align-items:center;gap:.38rem;background:white}
+.img-caption i{color:var(--blue-bright);font-size:.75rem}
+
+/* ===================== ABSTRACT ===================== */
+#introduction{background:var(--blue-wash)}
+.abstract-box{background:white;border-radius:var(--r-sm);padding:2.2rem 2.6rem;border-left:4px solid var(--blue-bright);box-shadow:var(--sh-sm);font-size:.93rem;color:var(--text-secondary);line-height:1.88}
+
+/* ===================== OBJECTIVES ===================== */
+#objectives{background:var(--white)}
+.obj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:1.1rem}
+.obj-card{background:var(--blue-wash);border:1px solid var(--border-lt);border-radius:var(--r-sm);padding:1.45rem;display:flex;gap:.88rem;transition:all .22s}
+.obj-card:hover{border-color:var(--blue-bright);box-shadow:var(--sh-sm);transform:translateY(-2px)}
+.obj-icon{width:39px;height:39px;background:linear-gradient(135deg,var(--blue-bright),var(--blue-mid));border-radius:9px;display:flex;align-items:center;justify-content:center;color:white;font-size:.87rem;flex-shrink:0}
+.obj-title{font-weight:700;font-size:.83rem;color:var(--navy);margin-bottom:.26rem}
+.obj-desc{font-size:.77rem;color:var(--text-muted);line-height:1.57}
+
+/* ===================== WORKFLOW ===================== */
+#workflow{background:var(--blue-wash)}
+.wf-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+.wf-step{background:white;border:1px solid var(--border-lt);border-radius:var(--r-sm);padding:1.2rem 1rem;text-align:center;box-shadow:var(--sh-xs);transition:all .22s}
+.wf-step:hover{border-color:var(--blue-bright);box-shadow:var(--sh-sm);transform:translateY(-2px)}
+.wf-num{width:30px;height:30px;background:linear-gradient(135deg,var(--blue-bright),var(--blue-mid));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:white;margin:0 auto .6rem}
+.wf-title{font-size:.79rem;font-weight:700;color:var(--navy);margin-bottom:.25rem}
+.wf-desc{font-size:.71rem;color:var(--text-muted);line-height:1.5}
+.wf-detail{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.wfd{background:white;border-radius:var(--r-sm);padding:1.35rem 1.5rem;border:1px solid var(--border-lt);box-shadow:var(--sh-xs)}
+.wfd-title{font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:.55rem;display:flex;align-items:center;gap:.4rem}
+.wfd-title i{color:var(--blue-bright)}
+.wfd-list{list-style:none}
+.wfd-list li{font-size:.77rem;color:var(--text-muted);padding:.2rem 0 .2rem 1rem;position:relative;line-height:1.5}
+.wfd-list li::before{content:'›';position:absolute;left:0;color:var(--blue-bright);font-weight:700}
+
+/* ===================== METHODOLOGY ===================== */
+#methodology{background:var(--white)}
+.mf-flow{display:flex;align-items:center;flex-wrap:wrap;margin-bottom:2.25rem;justify-content:center;gap:0}
+.mf-step{background:var(--blue-wash);border:1px solid var(--border-lt);border-radius:var(--r-sm);padding:.95rem 1.1rem;text-align:center;min-width:110px;flex:1;max-width:140px;box-shadow:var(--sh-xs)}
+.mf-n{font-size:.58rem;font-weight:700;color:var(--blue-bright);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25rem}
+.mf-t{font-size:.74rem;font-weight:600;color:var(--navy)}
+.mf-arrow{color:var(--blue-light);font-size:.95rem;padding:0 .18rem;display:flex;align-items:center}
+.mblocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:1.15rem}
+.mblock{background:var(--blue-wash);border-radius:var(--r-sm);padding:1.55rem;border:1px solid var(--border-lt)}
+.mblock-title{font-weight:700;font-size:.86rem;color:var(--navy);margin-bottom:.55rem;display:flex;align-items:center;gap:.42rem}
+.mblock-title i{color:var(--blue-bright);font-size:.82rem}
+.mblock p{font-size:.79rem;color:var(--text-muted);line-height:1.67}
+
+/* ===================== HARDWARE ===================== */
+#hardware{background:var(--blue-wash)}
+.hw-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;margin-bottom:1.4rem}
+.hw-grid-1{display:grid;grid-template-columns:1fr;gap:1.4rem;margin-bottom:1.4rem}
+.hw-center{max-width:440px;margin:0 auto;width:100%}
+.hw-img-wrap{min-height:200px;padding:1.5rem}
+.hw-img-wrap img{max-height:220px;width:100%;object-fit:contain}
+.hw-comps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.85rem;margin-top:1.4rem}
+.hw-comp{background:white;border:1px solid var(--border-lt);border-radius:var(--r-sm);padding:1rem 1.1rem;display:flex;align-items:center;gap:.72rem;transition:all .2s}
+.hw-comp:hover{border-color:var(--blue-bright);box-shadow:var(--sh-xs)}
+.hw-comp-icon{width:35px;height:35px;background:linear-gradient(135deg,var(--blue-mid),var(--blue-deep));border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;font-size:.8rem;flex-shrink:0}
+.hw-comp-name{font-weight:600;font-size:.78rem;color:var(--navy)}
+.hw-comp-role{font-size:.65rem;color:var(--text-muted);margin-top:.06rem}
+
+/* ===================== ML / SOFTWARE ===================== */
+#software{background:var(--white)}
+.sw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.2rem;margin-bottom:1.6rem}
+.sw-card{background:var(--blue-wash);border-radius:var(--r-sm);padding:1.65rem;border:1px solid var(--border-lt);box-shadow:var(--sh-xs);transition:all .22s}
+.sw-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md)}
+.sw-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--blue-bright),var(--blue-mid));border-radius:11px;display:flex;align-items:center;justify-content:center;color:white;font-size:1.1rem;margin-bottom:.9rem}
+.sw-title{font-weight:700;font-size:.9rem;color:var(--navy);margin-bottom:.38rem}
+.sw-card p{font-size:.78rem;color:var(--text-muted);line-height:1.64}
+.metrics-tbl{background:white;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border-lt);box-shadow:var(--sh-sm);margin-bottom:1.4rem}
+.metrics-tbl table{width:100%;border-collapse:collapse}
+.metrics-tbl th{background:var(--navy);color:white;padding:.85rem 1.35rem;font-size:.71rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-align:left}
+.metrics-tbl td{padding:.8rem 1.35rem;font-size:.86rem;border-bottom:1px solid var(--border-lt);color:var(--text-secondary)}
+.metrics-tbl tr:last-child td{border-bottom:none}
+.metrics-tbl tr:hover td{background:var(--blue-wash)}
+.mval{font-weight:700;color:var(--navy)}
+.ml-img-wrap{min-height:160px;padding:1rem}
+.ml-img-wrap img{max-height:200px;width:100%;object-fit:contain}
+
+/* ===================== SEVERITY TABLE ===================== */
+#severity{background:var(--blue-wash);padding:70px 0}
+.sev-tbl{background:white;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border-lt);box-shadow:var(--sh-sm)}
+.sev-tbl table{width:100%;border-collapse:collapse}
+.sev-tbl th{background:var(--navy);color:white;padding:.85rem 1.35rem;font-size:.71rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-align:left}
+.sev-tbl td{padding:.75rem 1.35rem;border-bottom:1px solid var(--border-lt);font-size:.84rem;color:var(--text-secondary)}
+.sev-tbl tr:last-child td{border-bottom:none}
+.bn{background:#d4edda;color:#155724;padding:.16rem .6rem;border-radius:100px;font-size:.66rem;font-weight:600}
+.bm{background:#fff3cd;color:#856404;padding:.16rem .6rem;border-radius:100px;font-size:.66rem;font-weight:600}
+.bmo{background:#ffe0b2;color:#b84a00;padding:.16rem .6rem;border-radius:100px;font-size:.66rem;font-weight:600}
+.bs{background:#f8d7da;color:#721c24;padding:.16rem .6rem;border-radius:100px;font-size:.66rem;font-weight:600}
+
+/* ===================== WEB APP ===================== */
+#webpage{background:var(--white)}
+.webapp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.2rem}
+.ss-card{border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border-lt);box-shadow:var(--sh-sm);transition:all .22s;background:white}
+.ss-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.ss-img-wrap{cursor:pointer;overflow:hidden;background:var(--blue-wash)}
+.ss-img-wrap img{width:100%;height:205px;object-fit:cover;object-position:top;display:block;transition:transform .3s}
+.ss-img-wrap:hover img{transform:scale(1.04)}
+.ss-caption{background:var(--navy);color:white;padding:.6rem .92rem;font-size:.7rem;font-weight:600;display:flex;align-items:center;gap:.36rem}
+.ss-caption i{color:var(--blue-light);font-size:.72rem}
+
+/* ===================== GRAPHICAL ABSTRACT ===================== */
+#graphical-abstract{background:var(--navy);padding:80px 0}
+.ga-wrap{text-align:center}
+.ga-wrap .sec-tag{justify-content:center;color:var(--blue-light)}
+.ga-wrap .sec-tag::before{background:var(--blue-light)}
+.ga-wrap .sec-title{color:white}
+.ga-wrap .sec-lead{color:rgba(195,220,255,.6);margin-left:auto;margin-right:auto}
+.ga-card{background:rgba(255,255,255,.05);border:1px solid rgba(91,164,245,.2);border-radius:var(--r);padding:2rem;display:grid;grid-template-columns:repeat(5,1fr);gap:0;align-items:center;max-width:880px;margin:0 auto}
+.ga-node{text-align:center;padding:1.1rem .4rem}
+.ga-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.25rem;color:white;margin:0 auto .55rem}
+.ga-node-title{font-size:.75rem;font-weight:700;color:white;margin-bottom:.17rem}
+.ga-node-sub{font-size:.62rem;color:rgba(170,205,255,.52);line-height:1.4}
+.ga-arrow{display:flex;align-items:center;justify-content:center;color:rgba(91,164,245,.55);font-size:1.2rem}
+
+/* ===================== RESULTS CAROUSEL ===================== */
+#results{background:var(--blue-wash)}
+.car-wrap{position:relative;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-lg)}
+.car-track{display:flex;transition:transform .48s cubic-bezier(.25,.46,.45,.94)}
+.car-slide{min-width:100%;position:relative}
+.car-slide img{width:100%;height:450px;object-fit:contain;object-position:top;background:var(--navy);display:block;cursor:pointer}
+.slide-cap{position:absolute;bottom:0;left:0;right:0;padding:1.25rem 1.65rem;background:linear-gradient(transparent,rgba(7,15,30,.95));color:white}
+.slide-cap-t{font-weight:700;font-size:.9rem;margin-bottom:.1rem}
+.slide-cap-s{font-size:.71rem;color:rgba(170,205,255,.62)}
+.car-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;background:rgba(255,255,255,.13);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.17);border-radius:50%;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;z-index:10;font-size:.85rem}
+.car-btn:hover{background:rgba(45,125,210,.45)}
+.car-btn.prev{left:1rem} .car-btn.next{right:1rem}
+.car-dots{display:flex;justify-content:center;gap:.42rem;margin-top:.95rem}
+.car-dot{width:6px;height:6px;background:var(--blue-pale);border-radius:50%;cursor:pointer;transition:all .2s}
+.car-dot.active{background:var(--blue-bright);transform:scale(1.4)}
+
+/* ===================== CV EXERCISES ===================== */
+#exercises{background:var(--white)}
+.ex-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem}
+.ex-card{background:white;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border-lt);box-shadow:var(--sh-sm);transition:all .25s}
+.ex-card:hover{transform:translateY(-3px);box-shadow:var(--sh-md)}
+.ex-img-wrap{cursor:pointer;overflow:hidden;background:var(--blue-wash)}
+.ex-img-wrap img{width:100%;height:230px;object-fit:cover;object-position:top;display:block;transition:transform .3s}
+.ex-img-wrap:hover img{transform:scale(1.04)}
+.ex-info{padding:1.25rem 1.4rem}
+.ex-type{font-size:.6rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--blue-bright);margin-bottom:.3rem}
+.ex-title{font-weight:700;font-size:.94rem;color:var(--navy);margin-bottom:.38rem}
+.ex-desc{font-size:.78rem;color:var(--text-muted);line-height:1.57}
+
+/* ===================== PATIENT REPORT ===================== */
+#report{background:var(--blue-wash)}
+.report-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}
+.report-img-wrap{border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border-lt);box-shadow:var(--sh-md);cursor:pointer}
+.report-img-wrap img{width:100%;display:block;transition:transform .3s}
+.report-img-wrap:hover img{transform:scale(1.02)}
+.report-fields{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.9rem}
+.rf{background:white;border-radius:var(--r-xs);padding:.6rem .88rem;border:1px solid var(--border-lt)}
+.rf-lbl{font-size:.6rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.16rem}
+.rf-val{font-size:.85rem;font-weight:700;color:var(--navy)}
+
+/* ===================== DEMO VIDEO (FIRST — HIGHLIGHTED) ===================== */
+#videos{background:var(--white)}
+.video-hero-card{background:var(--navy);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-lg);border:2px solid rgba(91,164,245,.25);max-width:820px;margin:0 auto}
+.video-hero-card video{width:100%;display:block;height:440px;object-fit:cover;background:#000}
+.video-hero-info{padding:1.35rem 1.6rem;border-top:1px solid rgba(91,164,245,.15)}
+.video-hero-title{font-weight:700;font-size:.98rem;color:white;margin-bottom:.28rem;display:flex;align-items:center;gap:.45rem}
+.video-hero-title i{color:var(--blue-light)}
+.video-hero-desc{font-size:.76rem;color:rgba(170,205,255,.55)}
+.video-badge{display:inline-flex;align-items:center;gap:.3rem;background:linear-gradient(135deg,var(--blue-bright),var(--blue-mid));border-radius:100px;padding:.22rem .7rem;font-size:.62rem;font-weight:700;color:white;letter-spacing:.06em;text-transform:uppercase;margin-bottom:1.5rem}
+
+/* ===================== SUBJECT TESTING VIDEO (SECOND) ===================== */
+#subject-testing{background:var(--blue-wash)}
+.video-card{background:var(--navy);border-radius:var(--r-sm);overflow:hidden;box-shadow:var(--sh-md);max-width:720px;margin:0 auto}
+.video-card video{width:100%;display:block;height:380px;object-fit:cover;background:#000}
+.video-card-info{padding:1.1rem 1.35rem;border-top:1px solid rgba(91,164,245,.13)}
+.video-card-title{font-weight:700;font-size:.9rem;color:white;margin-bottom:.23rem;display:flex;align-items:center;gap:.4rem}
+.video-card-title i{color:var(--blue-light)}
+.video-card-desc{font-size:.73rem;color:rgba(170,205,255,.52)}
+
+/* ===================== QR CODE ===================== */
+#qr-section{background:var(--white);padding:70px 0}
+.qr-inner{display:flex;flex-direction:column;align-items:center;text-align:center}
+.qr-card{background:var(--blue-wash);border:2px solid var(--blue-pale);border-radius:var(--r);padding:2.5rem 3rem;box-shadow:var(--sh-md);display:flex;flex-direction:column;align-items:center;gap:1.25rem;max-width:420px;width:100%}
+.qr-placeholder{width:180px;height:180px;background:white;border:2px dashed var(--blue-mid);border-radius:var(--r-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:var(--sh-sm)}
+.qr-placeholder i{font-size:4rem;color:var(--blue-pale);margin-bottom:.4rem}
+.qr-placeholder-txt{font-size:.7rem;color:var(--text-muted);font-weight:500}
+.qr-card-title{font-size:1.05rem;font-weight:700;color:var(--navy)}
+.qr-card-desc{font-size:.82rem;color:var(--text-muted);line-height:1.6;text-align:center}
+.qr-url{font-size:.75rem;font-weight:600;color:var(--blue-bright);background:white;border:1px solid var(--border-lt);border-radius:6px;padding:.35rem .8rem}
+
+/* ===================== DISCUSSION / CONCLUSION ===================== */
+#discussion{background:var(--blue-wash)}
+#conclusion{background:var(--white)}
+.prose-card{background:white;border-radius:var(--r-sm);padding:2.2rem 2.6rem;border:1px solid var(--border-lt);box-shadow:var(--sh-xs);font-size:.91rem;color:var(--text-secondary);line-height:1.87}
+#discussion .prose-card{background:var(--blue-wash);border-left:4px solid var(--blue-bright)}
+
+/* ===================== ACKNOWLEDGEMENT ===================== */
+#acknowledgement{background:var(--blue-wash);padding:70px 0}
+.ack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.ack-card{background:white;border-radius:var(--r-sm);padding:1.5rem;border:1px solid var(--border-lt);text-align:center}
+.ack-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--blue-bright),var(--blue-mid));border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:.97rem;margin:0 auto .75rem}
+.ack-ttl{font-weight:700;font-size:.79rem;color:var(--navy);margin-bottom:.28rem}
+.ack-name{font-size:.88rem;font-weight:600;color:var(--blue-deep);margin-bottom:.13rem}
+.ack-role{font-size:.72rem;color:var(--text-muted);line-height:1.5}
+
+/* ===================== FOOTER ===================== */
+footer{background:var(--navy);color:white;padding:3.25rem 0 1.6rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2.25rem;margin-bottom:2rem}
+.f-brand{font-weight:800;font-size:.98rem;margin-bottom:.55rem;letter-spacing:-.02em}
+.f-desc{font-size:.75rem;color:rgba(170,205,255,.5);line-height:1.67;max-width:280px}
+.f-col-title{font-size:.61rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue-light);margin-bottom:.75rem}
+.f-links{list-style:none;display:flex;flex-direction:column;gap:.38rem}
+.f-links a{font-size:.74rem;color:rgba(195,220,255,.58);text-decoration:none;transition:color .2s}
+.f-links a:hover{color:var(--blue-light)}
+.f-hr{border:none;border-top:1px solid rgba(91,164,245,.11);margin-bottom:1.15rem}
+.f-btm{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.55rem}
+.f-copy{font-size:.69rem;color:rgba(170,205,255,.38)}
+.disclaimer{background:rgba(200,70,70,.09);border:1px solid rgba(200,70,70,.16);border-radius:8px;padding:.8rem 1.25rem;margin-top:1.1rem;font-size:.71rem;color:rgba(255,175,175,.73);display:flex;gap:.5rem;align-items:flex-start}
+.disclaimer i{flex-shrink:0;margin-top:.07rem;color:rgba(255,175,175,.83)}
+
+/* ===================== LIGHTBOX ===================== */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(5,10,20,.93);z-index:9998;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+.lightbox.open{display:flex;animation:lbIn .22s ease}
+@keyframes lbIn{from{opacity:0}to{opacity:1}}
+.lb-inner{position:relative;max-width:92vw;max-height:92vh}
+.lb-inner img{max-width:90vw;max-height:86vh;border-radius:var(--r-sm);box-shadow:0 30px 80px rgba(0,0,0,.6);display:block;object-fit:contain}
+.lb-close{position:absolute;top:-13px;right:-13px;width:34px;height:34px;background:var(--blue-bright);border:none;border-radius:50%;color:white;font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:1}
+.lb-close:hover{background:var(--blue-mid)}
+
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:900px){
+  .wf-steps{grid-template-columns:repeat(2,1fr)}
+  .ga-card{grid-template-columns:1fr;max-width:320px}
+  .ga-arrow{transform:rotate(90deg)}
+}
+@media(max-width:768px){
+  .nav-links{display:none;position:absolute;top:62px;left:0;right:0;flex-direction:column;background:var(--white);border-bottom:1px solid var(--border-lt);padding:.65rem;gap:.12rem}
+  .nav-links.open{display:flex}
+  .nav-toggle{display:block}
+  .inst-card{grid-template-columns:1fr}
+  .hw-grid-2{grid-template-columns:1fr}
+  .webapp-grid{grid-template-columns:1fr}
+  .ex-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .f-btm{flex-direction:column;text-align:center}
+  .report-grid{grid-template-columns:1fr}
+  .wf-detail{grid-template-columns:1fr}
+  .ack-grid{grid-template-columns:1fr}
+  .car-slide img{height:260px}
+  section{padding:60px 0}
+  .prose-card,.abstract-box{padding:1.45rem}
+  .mf-arrow{display:none}
+  .video-hero-card video{height:260px}
+  .video-card video{height:220px}
+}
+</style>
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="lbBg(event)">
+  <div class="lb-inner">
+    <button class="lb-close" onclick="closeLB()"><i class="fas fa-times"></i></button>
+    <img id="lb-img" src="" alt="">
+  </div>
+</div>
+
+<div id="progress-bar"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-brand"><div class="nav-dot"></div>Smart Arthritis Monitor</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#introduction">Abstract</a></li>
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#hardware">Hardware</a></li>
+    <li><a href="#software">ML Model</a></li>
+    <li><a href="#webpage">Web App</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#videos">Demo</a></li>
+    <li><a href="#qr-section">QR</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('open')"><i class="fas fa-bars"></i></button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow1"></div>
+  <div class="hero-glow2"></div>
+  <div class="container">
+    <div class="hero-content fi">
+      <div class="hero-eyebrow"><i class="fas fa-circle" style="font-size:.42rem"></i>Biomedical Engineering &mdash; SRMIST</div>
+      <h1 class="hero-title">Smart Arthritis<br><span class="grad">Monitoring Sleeve</span><br>&amp; Rehabilitation System</h1>
+      <p class="hero-sub">A wearable IoT device integrated with machine learning and computer vision for continuous wrist joint monitoring and guided rehabilitation — designed for home and clinical use.</p>
+      <div class="hero-stats">
+        <div><div class="hstat-val">99%</div><div class="hstat-lbl">ML Accuracy</div></div>
+        <div><div class="hstat-val">6K+</div><div class="hstat-lbl">Training Samples</div></div>
+        <div><div class="hstat-val">4</div><div class="hstat-lbl">Severity Levels</div></div>
+        <div><div class="hstat-val">Real&#8209;time</div><div class="hstat-lbl">Monitoring</div></div>
+      </div>
+      <div class="hero-btns">
+        <a href="#workflow" class="btn-primary"><i class="fas fa-play"></i>Explore System</a>
+        <a href="#videos" class="btn-ghost"><i class="fas fa-video"></i>Watch Demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTITUTION -->
+<section id="institution">
+  <div class="container">
+    <div class="inst-card fi">
+      <div>
+        <div class="inst-dept">Department of Biomedical Engineering</div>
+        <div class="inst-name">SRM Institute of Science<br>and Technology</div>
+        <div class="inst-sub">College of Engineering and Technology &bull; Kattankulathur</div>
+        <div class="team-hd">Research Team</div>
+        <div class="member"><div class="avatar">SK</div><div><div class="mem-name">Shruthi S K</div><div class="mem-reg">RA2311013010008</div></div></div>
+        <div class="member"><div class="avatar">BP</div><div><div class="mem-name">Bava Prateeksha K S</div><div class="mem-reg">RA2311013010044</div></div></div>
+        <div class="member"><div class="avatar">NS</div><div><div class="mem-name">Nandhini Settu</div><div class="mem-reg">RA2311013010048</div></div></div>
+      </div>
+      <div>
+        <div class="guide-hd" style="margin-top:0">Under the Guidance of</div>
+        <div class="guide-name">Dr. Snekhalatha U</div>
+        <div class="guide-role">HOD &amp; Professor, Dept. of Biomedical Engineering</div>
+        <div class="tags">
+          <span class="tag">Arthritis Monitoring</span><span class="tag">Wearable Sensors</span>
+          <span class="tag">Random Forest ML</span><span class="tag">MediaPipe CV</span>
+          <span class="tag">Web Rehabilitation</span><span class="tag">Remote Healthcare</span>
+        </div>
+        <div class="guide-sep">
+          <div style="font-size:.73rem;color:rgba(170,205,255,.48);line-height:1.65">B.Tech Minor Project &bull; April 2026<br>SRM IST, Kattankulathur</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABSTRACT -->
+<section id="introduction">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-book-open"></i>Abstract</div>
+      <h2 class="sec-title">What This Project Is About</h2>
+      <p class="sec-lead">Bridging the gap between clinical assessment and continuous, home-based joint monitoring.</p>
+    </div>
+    <div class="abstract-box fi">
+      Arthritis progressively limits joint mobility, grip strength, and overall hand function — yet most monitoring solutions require repeated clinic visits and costly equipment. This project introduces a <strong>Smart Arthritis Monitoring Sleeve</strong> that integrates wearable sensors with a web-based rehabilitation platform for continuous, objective joint assessment.
+      <br><br>
+      The sleeve captures three clinically relevant parameters: <strong>range of motion</strong> (wrist flexion, extension, and deviation), <strong>grip strength</strong> via force sensing, and <strong>self-reported swelling level</strong>. Sensor data streams in real time to a web dashboard where a <strong>Random Forest classifier</strong> predicts arthritis severity across four levels — Normal, Mild, Moderate, and Severe. Based on the predicted severity, the system recommends targeted rehabilitation exercises, monitored in real time using <strong>MediaPipe-based computer vision</strong> to ensure correct execution and count valid repetitions.
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIVES -->
+<section id="objectives">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-bullseye"></i>Objectives</div>
+      <h2 class="sec-title">Project Goals</h2>
+      <p class="sec-lead">To develop a portable, low-cost wearable system for continuous upper limb joint monitoring integrated with an intelligent rehabilitation platform.</p>
+    </div>
+    <div class="obj-grid">
+      <div class="obj-card fi"><div class="obj-icon"><i class="fas fa-ruler-combined"></i></div><div><div class="obj-title">Range of Motion Sensing</div><div class="obj-desc">Measure wrist flexion, extension, and radial/ulnar deviation using an IMU sensor embedded in the sleeve.</div></div></div>
+      <div class="obj-card fi fi-d1"><div class="obj-icon"><i class="fas fa-hand-rock"></i></div><div><div class="obj-title">Grip Strength Measurement</div><div class="obj-desc">Quantify grip force using an FSR sensor with a calibrated measurement protocol.</div></div></div>
+      <div class="obj-card fi fi-d2"><div class="obj-icon"><i class="fas fa-brain"></i></div><div><div class="obj-title">ML Severity Classification</div><div class="obj-desc">Classify arthritis severity using a Random Forest Classifier trained on clinical threshold data.</div></div></div>
+      <div class="obj-card fi"><div class="obj-icon"><i class="fas fa-chart-line"></i></div><div><div class="obj-title">Web Dashboard &amp; Reports</div><div class="obj-desc">Display live sensor graphs, session history, and auto-generate PDF diagnostic reports.</div></div></div>
+      <div class="obj-card fi fi-d1"><div class="obj-icon"><i class="fas fa-eye"></i></div><div><div class="obj-title">CV Exercise Guidance</div><div class="obj-desc">Track rehabilitation exercises using MediaPipe hand landmark detection to validate movement and count reps.</div></div></div>
+      <div class="obj-card fi fi-d2"><div class="obj-icon"><i class="fas fa-home"></i></div><div><div class="obj-title">Home &amp; Clinic Ready</div><div class="obj-desc">A portable, user-friendly system that works without specialist hardware or hospital infrastructure.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<section id="workflow">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-stream"></i>System Workflow</div>
+      <h2 class="sec-title">How It Works — Step by Step</h2>
+      <p class="sec-lead">A structured protocol ensures consistent, clinically meaningful measurements every session.</p>
+    </div>
+    <div class="wf-steps fi">
+      <div class="wf-step"><div class="wf-num">1</div><div class="wf-title">Wear Device</div><div class="wf-desc">Fit sleeve on wrist; enter patient details in web app to start session.</div></div>
+      <div class="wf-step"><div class="wf-num">2</div><div class="wf-title">Baseline Calibration</div><div class="wf-desc">Hold hand flat and still — IMU captures neutral wrist angle reference.</div></div>
+      <div class="wf-step"><div class="wf-num">3</div><div class="wf-title">ROM Movements</div><div class="wf-desc">Perform flexion, extension, radial &amp; ulnar deviation as instructed.</div></div>
+      <div class="wf-step"><div class="wf-num">4</div><div class="wf-title">ROM Calculated</div><div class="wf-desc">Peak angles recorded, normalized against clinical reference values.</div></div>
+      <div class="wf-step"><div class="wf-num">5</div><div class="wf-title">Grip Calibration</div><div class="wf-desc">1-min baseline rest on FSR, then 10-sec maximum grip press.</div></div>
+      <div class="wf-step"><div class="wf-num">6</div><div class="wf-title">Grip Scored</div><div class="wf-desc">Force normalized against baseline to produce a percentage grip score.</div></div>
+      <div class="wf-step"><div class="wf-num">7</div><div class="wf-title">Swelling Input</div><div class="wf-desc">Patient self-reports swelling level via web interface.</div></div>
+      <div class="wf-step"><div class="wf-num">8</div><div class="wf-title">Severity Predicted</div><div class="wf-desc">Random Forest combines all inputs — outputs severity + confidence score.</div></div>
+    </div>
+    <div class="wf-detail fi">
+      <div class="wfd">
+        <div class="wfd-title"><i class="fas fa-arrows-alt-v"></i>ROM Protocol</div>
+        <ul class="wfd-list">
+          <li>Hold wrist flat — capture neutral reference</li>
+          <li>Flexion: bend wrist downward as far as comfortable</li>
+          <li>Extension: bend wrist upward as far as comfortable</li>
+          <li>Radial deviation: tilt toward thumb side</li>
+          <li>Ulnar deviation: tilt toward pinky side</li>
+          <li>% ROM calculated against clinical normal values</li>
+        </ul>
+      </div>
+      <div class="wfd">
+        <div class="wfd-title"><i class="fas fa-hand-paper"></i>Grip Strength Protocol</div>
+        <ul class="wfd-list">
+          <li>Place palm on FSR pad for 1 minute (baseline)</li>
+          <li>System captures resting baseline force value</li>
+          <li>Squeeze FSR maximally for 10 seconds</li>
+          <li>Peak grip force recorded and normalized</li>
+          <li>Compared to clinical grip thresholds (N)</li>
+          <li>Combined with ROM + swelling for ML input</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-cogs"></i>Methodology</div>
+      <h2 class="sec-title">System Architecture</h2>
+      <p class="sec-lead">Sensor data, machine learning, and computer vision unified into a single closed-loop feedback system.</p>
+    </div>
+    <div class="mf-flow fi">
+      <div class="mf-step"><div class="mf-n">01</div><div class="mf-t">Sensor Acquisition</div></div>
+      <div class="mf-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="mf-step"><div class="mf-n">02</div><div class="mf-t">Wi-Fi Transmission</div></div>
+      <div class="mf-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="mf-step"><div class="mf-n">03</div><div class="mf-t">ML Prediction</div></div>
+      <div class="mf-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="mf-step"><div class="mf-n">04</div><div class="mf-t">Rehab Plan</div></div>
+      <div class="mf-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="mf-step"><div class="mf-n">05</div><div class="mf-t">CV Tracking</div></div>
+    </div>
+    <div class="mblocks">
+      <div class="mblock fi"><div class="mblock-title"><i class="fas fa-microchip"></i>Hardware Sensing</div><p>ESP32 reads angular motion from the MPU6050 IMU over I2C and grip force from an FSR through a voltage divider. All readings stream continuously over Wi-Fi to the web platform.</p></div>
+      <div class="mblock fi fi-d1"><div class="mblock-title"><i class="fas fa-tree"></i>Random Forest Classifier</div><p>Trained on ~6,000 clinically derived samples. Takes ROM %, normalized grip strength, and swelling score as inputs. Outputs one of four severity classes with confidence percentage.</p></div>
+      <div class="mblock fi fi-d2"><div class="mblock-title"><i class="fas fa-laptop-code"></i>Web Dashboard</div><p>Live sensor graphs, session logs, ML severity display with confidence, swelling self-assessment, and downloadable PDF patient diagnostic reports.</p></div>
+      <div class="mblock fi"><div class="mblock-title"><i class="fas fa-eye"></i>MediaPipe CV Tracking</div><p>Detects 21 hand landmarks per frame. Computes joint angles in real time. Valid repetitions counted only when movement matches expected biomechanical patterns.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HARDWARE -->
+<section id="hardware">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-microchip"></i>Hardware Design</div>
+      <h2 class="sec-title">Wearable Sensing System</h2>
+      <p class="sec-lead">All electronics housed in a lightweight cardboard enclosure integrated within a comfortable fabric sleeve.</p>
+    </div>
+
+    <!-- IMG_1: Sleeve | IMG_2: Circuit Diagram -->
+    <div class="hw-grid-2 fi">
+
+      <div class="img-card">
+        <div class="img-wrap hw-img-wrap" onclick="openLB(this.querySelector('img'))">
+          <img src="assets/wearable.jpg" alt="Wearable Sleeve" style="width:100%; border-radius:10px;">
+        </div>
+        <div class="img-caption">
+          <i class="fas fa-tshirt"></i> Wearable Sleeve with integrated sensor housing
+        </div>
+      </div>
+
+      <div class="img-card">
+        <div class="img-wrap hw-img-wrap" onclick="openLB(this.querySelector('img'))">
+          <img src="assets/circuit.jpg" alt="Circuit Diagram" style="width:100%; border-radius:10px;">
+        </div>
+        <div class="img-caption">
+          <i class="fas fa-project-diagram"></i> Circuit Diagram: ESP32, MPU6050, FSR & TP4056
+        </div>
+      </div>
+
+    </div>
+
+    <!-- IMG_3 -->
+    <div class="hw-grid-1 fi">
+      <div class="img-card hw-center">
+        <div class="img-wrap hw-img-wrap" onclick="openLB(this.querySelector('img'))">
+          <img src="assets/enclosure.jpg" alt="Electronics Enclosure" style="width:100%; border-radius:10px;">
+        </div>
+        <div class="img-caption">
+          <i class="fas fa-box"></i> Electronics Enclosure with cable and FSR pad
+        </div>
+      </div>
+    </div>
+
+    <div class="hw-comps fi">
+      <div class="hw-comp"><div class="hw-comp-icon"><i class="fas fa-wifi"></i></div><div><div class="hw-comp-name">ESP32 Dev Kit</div><div class="hw-comp-role">MCU & Wi-Fi</div></div></div>
+      <div class="hw-comp"><div class="hw-comp-icon"><i class="fas fa-compass"></i></div><div><div class="hw-comp-name">MPU6050 IMU</div><div class="hw-comp-role">6-DOF Motion (I2C)</div></div></div>
+      <div class="hw-comp"><div class="hw-comp-icon"><i class="fas fa-hand-rock"></i></div><div><div class="hw-comp-name">FSR Sensor</div><div class="hw-comp-role">Grip Force</div></div></div>
+      <div class="hw-comp"><div class="hw-comp-icon"><i class="fas fa-battery-three-quarters"></i></div><div><div class="hw-comp-name">LiPo Battery</div><div class="hw-comp-role">Portable Power</div></div></div>
+      <div class="hw-comp"><div class="hw-comp-icon"><i class="fas fa-bolt"></i></div><div><div class="hw-comp-name">TP4056 Module</div><div class="hw-comp-role">Charging Circuit</div></div></div>
+      <div class="hw-comp"><div class="hw-comp-icon"><i class="fas fa-tshirt"></i></div><div><div class="hw-comp-name">Fabric Sleeve</div><div class="hw-comp-role">Wearable Housing</div></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SEVERITY TABLE -->
+<section id="severity">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-table"></i>Clinical Classification</div>
+      <h2 class="sec-title">Severity Threshold Mapping</h2>
+      <p class="sec-lead">Thresholds derived from clinical guidelines used to label training data and interpret sensor readings.</p>
+    </div>
+    <div class="sev-tbl fi">
+      <table>
+        <thead><tr><th>Parameter</th><th>Threshold</th><th>Class</th></tr></thead>
+        <tbody>
+          <tr><td>Grip Strength (N)</td><td>&gt; 140</td><td><span class="bn">Normal</span></td></tr>
+          <tr><td>Grip Strength (N)</td><td>100 – 140</td><td><span class="bm">Mild</span></td></tr>
+          <tr><td>Grip Strength (N)</td><td>60 – 100</td><td><span class="bmo">Moderate</span></td></tr>
+          <tr><td>Grip Strength (N)</td><td>&le; 60</td><td><span class="bs">Severe</span></td></tr>
+          <tr><td>Range of Motion (%)</td><td>&gt; 90%</td><td><span class="bn">Normal</span></td></tr>
+          <tr><td>Range of Motion (%)</td><td>70 – 90%</td><td><span class="bm">Mild</span></td></tr>
+          <tr><td>Range of Motion (%)</td><td>50 – 70%</td><td><span class="bmo">Moderate</span></td></tr>
+          <tr><td>Range of Motion (%)</td><td>&le; 50%</td><td><span class="bs">Severe</span></td></tr>
+          <tr><td>Swelling Score</td><td>0 — None</td><td><span class="bn">Normal</span></td></tr>
+          <tr><td>Swelling Score</td><td>1 — Mild</td><td><span class="bm">Mild</span></td></tr>
+          <tr><td>Swelling Score</td><td>2 — Moderate</td><td><span class="bmo">Moderate</span></td></tr>
+          <tr><td>Swelling Score</td><td>3 — Severe</td><td><span class="bs">Severe</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- WEB APP -->
+<section id="webpage">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-globe"></i>Web Application</div>
+      <h2 class="sec-title">Integrated Monitoring Dashboard</h2>
+      <p class="sec-lead">One platform for live sensor feeds, ML predictions, swelling assessment, and rehabilitation guidance.</p>
+    </div>
+
+    <!-- ROW 1 -->
+    <div class="webapp-grid fi">
+
+      <div class="ss-card">
+        <div class="ss-img-wrap">
+          <img src="assets/patient_entry.jpg" alt="Patient Entry" style="width:100%; border-radius:10px;">
+        </div>
+        <div class="ss-caption">
+          <i class="fas fa-user"></i> Patient Entry
+        </div>
+      </div>
+
+      <div class="ss-card">
+        <div class="ss-img-wrap">
+          <img src="assets/live_prediction.jpg" alt="Dashboard" style="width:100%; border-radius:10px;">
+        </div>
+        <div class="ss-caption">
+          <i class="fas fa-desktop"></i> Live Dashboard
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="webapp-grid fi">
+
+      <div class="ss-card">
+        <div class="ss-img-wrap">
+          <img src="assets/swelling.jpg" alt="Swelling" style="width:100%; border-radius:10px;">
+        </div>
+        <div class="ss-caption">
+          <i class="fas fa-hand-paper"></i> Swelling Assessment
+        </div>
+      </div>
+
+      <div class="ss-card">
+        <div class="ss-img-wrap">
+          <img src="assets/rehab.jpg" alt="Rehab" style="width:100%; border-radius:10px;">
+        </div>
+        <div class="ss-caption">
+          <i class="fas fa-running"></i> Rehab Exercises
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- GRAPHICAL ABSTRACT -->
+<section id="graphical-abstract">
+  <div class="container">
+    <div class="ga-wrap fi">
+      <div class="sec-tag"><i class="fas fa-sitemap"></i>Graphical Abstract</div>
+      <h2 class="sec-title">System at a Glance</h2>
+      <p class="sec-lead">The complete pipeline from wearable sensing to personalized rehabilitation.</p>
+    </div>
+    <div class="ga-card fi">
+      <div class="ga-node">
+        <div class="ga-icon" style="background:linear-gradient(135deg,#1e5bbd,#0a1628)"><i class="fas fa-tshirt"></i></div>
+        <div class="ga-node-title">Wearable Sleeve</div>
+        <div class="ga-node-sub">ESP32 + MPU6050 + FSR</div>
+      </div>
+      <div class="ga-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="ga-node">
+        <div class="ga-icon" style="background:linear-gradient(135deg,#2d7dd2,#1e5bbd)"><i class="fas fa-wifi"></i></div>
+        <div class="ga-node-title">Web Platform</div>
+        <div class="ga-node-sub">Real-time data &amp; graphs</div>
+      </div>
+      <div class="ga-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="ga-node">
+        <div class="ga-icon" style="background:linear-gradient(135deg,#5ba4f5,#2d7dd2)"><i class="fas fa-tree"></i></div>
+        <div class="ga-node-title">Random Forest</div>
+        <div class="ga-node-sub">Severity prediction</div>
+      </div>
+      <div class="ga-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="ga-node">
+        <div class="ga-icon" style="background:linear-gradient(135deg,#22c55e,#16a34a)"><i class="fas fa-dumbbell"></i></div>
+        <div class="ga-node-title">Rehab Plan</div>
+        <div class="ga-node-sub">Adaptive exercises</div>
+      </div>
+      <div class="ga-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="ga-node">
+        <div class="ga-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706)"><i class="fas fa-eye"></i></div>
+        <div class="ga-node-title">MediaPipe CV</div>
+        <div class="ga-node-sub">Exercise monitoring</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS CAROUSEL -->
+<section id="results">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-chart-area"></i>Results & Gallery</div>
+      <h2 class="sec-title">System Performance Gallery</h2>
+      <p class="sec-lead">Screenshots from live monitoring sessions and computer vision exercise tracking.</p>
+    </div>
+
+    <div class="car-wrap fi">
+      <div class="car-slide">
+        <img src="assets/result1.jpg" style="width:100%; border-radius:10px;">
+      </div>
+      <div class="car-slide">
+        <img src="assets/result2.jpg" style="width:100%; border-radius:10px;">
+      </div>
+      <div class="car-slide">
+        <img src="assets/result3.jpg" style="width:100%; border-radius:10px;">
+      </div>
+    </div>
+
+    <button class="car-btn prev" onclick="moveCar(-1)"><i class="fas fa-chevron-left"></i></button>
+    <button class="car-btn next" onclick="moveCar(1)"><i class="fas fa-chevron-right"></i></button>
+
+    <div class="car-dots" id="carDots"></div>
+  </div>
+</section>
+
+<!-- CV EXERCISES -->
+<section id="exercises">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-dumbbell"></i>CV-Guided Exercises</div>
+      <h2 class="sec-title">Computer Vision Rehabilitation Modules</h2>
+      <p class="sec-lead">Two exercise categories guided in real time by MediaPipe hand tracking to ensure correct form.</p>
+    </div>
+
+    <div class="webapp-grid fi">
+
+      <div class="ss-card">
+        <img src="assets/flex.jpg" style="width:100%; border-radius:10px;">
+        <div class="ss-caption">Wrist Flexion</div>
+      </div>
+
+      <div class="ss-card">
+        <img src="assets/ext.jpg" style="width:100%; border-radius:10px;">
+        <div class="ss-caption">Wrist Extension</div>
+      </div>
+
+      <div class="ss-card">
+        <img src="assets/leftd.jpg" style="width:100%; border-radius:10px;">
+        <div class="ss-caption">Left Deviation</div>
+      </div>
+
+      <div class="ss-card">
+        <img src="assets/rightd.jpg" style="width:100%; border-radius:10px;">
+        <div class="ss-caption">Right Deviation</div>
+      </div>
+
+      <div class="ss-card">
+        <img src="assets/grip.jpg" style="width:100%; border-radius:10px;">
+        <div class="ss-caption">Grip Strength Exercise</div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- PATIENT REPORT -->
+<section id="report">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-file-medical"></i>Patient Report</div>
+      <h2 class="sec-title">Auto-Generated Diagnostic Report</h2>
+      <p class="sec-lead">Each session produces a downloadable PDF with full sensor readings, ML prediction, and exercise plan.</p>
+    </div>
+
+    <div class="report-grid fi">
+
+      <div class="report-img-wrap">
+        <img src="assets/report.jpg" style="width:100%; border-radius:10px;">
+      </div>
+
+      <div>
+        <h3 style="font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.7rem;">
+          What's in Each Report
+        </h3>
+
+        <div class="report-fields">
+          <div class="rf"><div class="rf-lbl">Patient Name</div><div class="rf-val">MANJULA</div></div>
+          <div class="rf"><div class="rf-lbl">Age</div><div class="rf-val">47 Years</div></div>
+          <div class="rf"><div class="rf-lbl">Range of Motion</div><div class="rf-val">96.4°</div></div>
+          <div class="rf"><div class="rf-lbl">Grip Strength</div><div class="rf-val">126.4 N</div></div>
+          <div class="rf"><div class="rf-lbl">ML Prediction</div><div class="rf-val">Mild</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DEMO VIDEO -->
+<section id="videos">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-video"></i>System Demo</div>
+      <h2 class="sec-title">Full System Demonstration</h2>
+    </div>
+
+    <div class="video-hero-card">
+      <video controls width="100%">
+        <source src="assets/demo.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- SUBJECT TESTING -->
+<section id="subject-testing">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-users"></i>Subject Testing</div>
+      <h2 class="sec-title">Combined Subject Testing</h2>
+    </div>
+
+    <div class="video-card">
+      <video controls width="100%">
+        <source src="assets/subject_testing.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- DISCUSSION -->
+<section id="discussion">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-comments"></i>Discussion</div>
+      <h2 class="sec-title">Analysis of Results</h2>
+    </div>
+    <div class="prose-card fi">
+      The system effectively demonstrated real-time joint monitoring and guided rehabilitation. The Random Forest Classifier achieved <strong>99% accuracy</strong> on the held-out test set, with precision, recall, and F1-score all above 0.98 across all severity classes. The confusion matrix confirmed minimal misclassification — primarily between adjacent classes (e.g., Mild and Moderate), which is clinically acceptable.
+      <br><br>
+      Grip strength measurements correlated inversely with severity. Range of motion data captured meaningful variation across subjects, with flexion and extension angles proving most discriminative. The MediaPipe CV module reliably detected hand landmarks under indoor lighting, counting only biomechanically valid repetitions. Subjects completed exercise sessions with minimal coaching, indicating strong usability.
+      <br><br>
+      The web dashboard unified monitoring, visualization, and rehabilitation into a single accessible interface. Auto-generated PDF reports provide a practical deliverable for clinical handoff or personal tracking.
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSION -->
+<section id="conclusion">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-check-circle"></i>Conclusion</div>
+      <h2 class="sec-title">Summary</h2>
+    </div>
+    <div class="prose-card fi">
+      This project demonstrates that wearable sensing, machine learning, and computer vision can be meaningfully combined into a single, affordable arthritis monitoring and rehabilitation system. The sleeve reliably captures range of motion and grip strength; the Random Forest Classifier predicts severity with clinical-grade accuracy; and MediaPipe-powered exercise tracking ensures correct rehabilitation without specialist supervision.
+      <br><br>
+      The system is accessible, portable, and requires no complex clinical infrastructure — making it suitable for home use, remote monitoring, or low-resource clinical settings. Future work will focus on expanding the validated subject pool, incorporating clinical labels from rheumatologists, and refining the device form factor for long-term wearability.
+    </div>
+  </div>
+</section>
+
+<!-- ACKNOWLEDGEMENT -->
+<section id="acknowledgement">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-heart"></i>Acknowledgement</div>
+      <h2 class="sec-title">With Gratitude</h2>
+    </div>
+    <div class="ack-grid fi">
+      <div class="ack-card"><div class="ack-icon"><i class="fas fa-user-tie"></i></div><div class="ack-ttl">Project Guide</div><div class="ack-name">Dr. Snekhalatha U</div><div class="ack-role">HOD &amp; Professor,<br>Dept. of Biomedical Engineering</div></div>
+      <div class="ack-card"><div class="ack-icon"><i class="fas fa-chalkboard-teacher"></i></div><div class="ack-ttl">Project Coordinator</div><div class="ack-name">Dr. Rohit Gupta</div><div class="ack-role">Faculty Coordinator,<br>Minor Projects — BME</div></div>
+      <div class="ack-card"><div class="ack-icon"><i class="fas fa-university"></i></div><div class="ack-ttl">Department</div><div class="ack-name">Biomedical Engineering</div><div class="ack-role">SRMIST, Kattankulathur<br>For funding and research support</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- QR CODE -->
+<section id="qr-section">
+  <div class="container">
+    <div class="fi">
+      <div class="sec-tag"><i class="fas fa-qrcode"></i>Quick Access</div>
+      <h2 class="sec-title">Access Web Dashboard</h2>
+      <p class="sec-lead">Scan the QR code to access the live project dashboard from any device.</p>
+    </div>
+
+    <div class="qr-inner fi">
+      <div class="qr-card">
+
+        <div class="qr-img-wrap">
+          <img src="assets/qr.png" alt="QR Code" style="width:200px; height:200px;">
+        </div>
+
+        <div class="qr-card-title">Access Web Dashboard</div>
+
+        <div class="qr-card-desc">
+          Scan to access the live Smart Arthritis Monitoring System dashboard — view real-time sensor data, ML predictions, and rehabilitation exercises.
+        </div>
+
+        <div class="qr-url">
+          <i class="fas fa-link" style="margin-right:.4rem"></i>
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="f-brand">Smart Arthritis Monitoring Sleeve</div>
+
+        <div class="disclaimer">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span><strong>Medical Disclaimer:</strong> This project is for research and educational purposes only. Not intended for clinical diagnosis or medical use. All results are experimental and do not replace professional medical advice.</span>
+        </div>
+      </div>
+      <div>
+        <div class="f-col-title">Team</div>
+        <ul class="f-links">
+          <li><a href="#">Shruthi S K — RA2311013010008</a></li>
+          <li><a href="#">Bava Prateeksha K S — RA2311013010044</a></li>
+          <li><a href="#">Nandhini Settu — RA2311013010048</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-col-title">Institution</div>
+        <ul class="f-links">
+          <li><a href="#">Dept. of Biomedical Engineering</a></li>
+          <li><a href="#">SRMIST, Kattankulathur</a></li>
+          <li><a href="#">Guide: Dr. Snekhalatha U</a></li>
+          <li><a href="#">April 2026</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="f-hr">
+    <div class="f-btm">
+      <div class="f-copy">&copy; 2026 Shruthi S K, Bava Prateeksha K S, Nandhini Settu &mdash; SRMIST Biomedical Engineering</div>
+      <div class="f-copy">Minor Project Portfolio</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ===== SCROLL PROGRESS + NAV ACTIVE =====
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  document.querySelectorAll('section[id]').forEach(sec => {
+    const top = sec.offsetTop - 130, bottom = top + sec.offsetHeight;
+    if (window.scrollY >= top && window.scrollY < bottom) {
+      document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+      const m = document.querySelector('.nav-links a[href="#' + sec.id + '"]');
+      if (m) m.classList.add('active');
+    }
+  });
+});
+
+// ===== FADE-IN =====
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.07 });
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+
+// ===== CAROUSEL =====
+let cur = 0;
+const track = document.getElementById('carTrack');
+const slides = track ? track.querySelectorAll('.car-slide') : [];
+const dotsEl = document.getElementById('carDots');
+if (slides.length && dotsEl) {
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'car-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goSlide(i);
+    dotsEl.appendChild(d);
+  });
+}
+function goSlide(n) {
+  if (!slides.length) return;
+  cur = (n + slides.length) % slides.length;
+  track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+  document.querySelectorAll('.car-dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+}
+function moveCar(d) { goSlide(cur + d); }
+let autoT = setInterval(() => moveCar(1), 5000);
+if (track) {
+  track.addEventListener('mouseenter', () => clearInterval(autoT));
+  track.addEventListener('mouseleave', () => { autoT = setInterval(() => moveCar(1), 5000); });
+}
+
+// ===== LIGHTBOX =====
+function openLB(img) {
+  document.getElementById('lb-img').src = img.src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLB() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function lbBg(e) { if (e.target === document.getElementById('lightbox')) closeLB(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+</script>
+</body>
+</html>
